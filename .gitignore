@@ -1,2 +1,4 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-dbt_packages/
+*.py[cod]
+*$py.class
