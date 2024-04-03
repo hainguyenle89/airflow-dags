@@ -1,0 +1,65 @@
+jaffle_shop:
+  outputs:
+    dev:
+      database: dbtdbs
+      schema: jaffe_shop
+      host: 10.1.125.90
+      user: bigdata
+      password: "123456"
+      port: 5432
+      threads: 4
+      type: postgres
+      connection_timeout: 10
+    impaladw:
+      type: impala
+      host: coordinator-wh.apps.bigdatavnpt.com
+      port: 443
+      dbname: admincdpimpala
+      schema: admincdpimpala
+      ##auth_type: GSSAPI
+      ##kerberos_service_name: impala
+      use_http_transport: true
+      http_path: cliservice
+      user: admincdp
+      password: cloudera@2024
+      auth_type: ldap
+      use_ssl: true
+      threads: 4
+    impaladwker:
+      type: impala
+      host: bigdata1.bigdatavnpt.com
+      port: 21050
+      dbname: admincdpimpala
+      schema: admincdpimpala
+      auth_type: GSSAPI
+      kerberos_service_name: admincdp
+      #use_http_transport: true
+      use_ssl: false
+      threads: 4
+    impaladwnoauth:
+      type: impala
+      host: cdp4.bigdatavnpt.com
+      port: 21050
+      dbname: admincdpimpala
+      schema: admincdpimpala
+      threads: 4
+    hivedw:
+      type: hive
+      host: hs2-wh.apps.bigdatavnpt.com
+      port: 443
+      use_ssl: true
+      use_http_transport: true
+      http_path: cliservice
+      schema: admincdpimpala
+      auth_type: ldap
+      threads: 4
+      user: admincdp
+      password: cloudera@2024
+    hivedwnoauth:
+      type: hive
+      host: cdp6.bigdatavnpt.com
+      port: 10000
+      schema: admincdpimpala
+      threads: 4
+  target: impaladwnoauth
+    #target: impaladw

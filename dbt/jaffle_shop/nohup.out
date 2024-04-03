@@ -1,0 +1,41 @@
+[0m17:07:15  Running with dbt=1.5.2
+Serving docs at 14500
+To access from your browser, navigate to: http://localhost:14500
+
+
+
+Press Ctrl+C to exit.
+10.1.125.89 - - [12/Jan/2024 00:07:16] "GET / HTTP/1.1" 200 -
+10.1.125.89 - - [12/Jan/2024 00:07:16] "GET /manifest.json?cb=1704992755522 HTTP/1.1" 200 -
+10.1.125.89 - - [12/Jan/2024 00:07:16] "GET /catalog.json?cb=1704992755522 HTTP/1.1" 200 -
+[0m17:07:19  Encountered an error:
+
+[0m17:07:19  Traceback (most recent call last):
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 86, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 71, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 142, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 168, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/requires.py", line 215, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/cli/main.py", line 299, in docs_serve
+    results = task.run()
+              ^^^^^^^^^^
+  File "/opt/bitnami/airflow/venv/lib/python3.11/site-packages/dbt/task/serve.py", line 28, in run
+    httpd.serve_forever()
+  File "/opt/bitnami/python/lib/python3.11/socketserver.py", line 233, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/bitnami/python/lib/python3.11/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
