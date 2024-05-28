@@ -3,6 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-python_project/.git
+python_projects/
 
 dbt_packages/
