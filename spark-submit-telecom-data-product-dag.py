@@ -29,7 +29,7 @@ with DAG(
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
         conn_id="spark_10.193.79.40",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
-        jars="/opt/bitnami/airflow/dags/python_projects/libs/postgresql-42.6.0.jar",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'subscriberETL'},
         application_args=['subscriberETL'],
     )
@@ -43,7 +43,7 @@ with DAG(
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
         conn_id="spark_10.193.79.40",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
-        jars="/opt/bitnami/airflow/dags/python_projects/libs/postgresql-42.6.0.jar",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'deviceinfoETL'},
         application_args=['deviceinfoETL'],
     )
@@ -57,7 +57,7 @@ with DAG(
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
         conn_id="spark_10.193.79.40",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
-        jars="/opt/bitnami/airflow/dags/python_projects/libs/postgresql-42.6.0.jar",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'subscriberDeltaETL'},
         application_args=['subscriberDeltaETL'],
     )
