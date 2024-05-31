@@ -20,10 +20,10 @@ with DAG(
     max_active_runs=1,
 #    default_args={"owner": "01-EXTRACT", "retries": 2},
 ) as dag:
-    telecom_subscriber_etl = SparkSubmitOperator(
+    telecom_subscriber_parquet_etl = SparkSubmitOperator(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py", 
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py", 
-        task_id="spark_telecom_subscriber_etl",
+        task_id="spark_telecom_subscriber_parquet_etl",
         packages="io.delta:delta-spark_2.12:3.2.0",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
@@ -34,10 +34,10 @@ with DAG(
         application_args=['subscriberETL'],
     )
 
-    telecom_deviceinfo_etl = SparkSubmitOperator(
+    telecom_deviceinfo_parquet_etl = SparkSubmitOperator(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
-        task_id="spark_telecom_deviceinfo_etl",
+        task_id="spark_telecom_deviceinfo_parquet_etl",
         packages="io.delta:delta-spark_2.12:3.2.0",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
@@ -62,6 +62,6 @@ with DAG(
         application_args=['subscriberDeltaETL'],
     )
 
-    [telecom_subscriber_etl, telecom_deviceinfo_etl] >> telecom_subscriber_delta_etl
+    [telecom_subscriber_parquet_etl, telecom_deviceinfo_parquet_etl] >> telecom_subscriber_delta_etl
 
 
