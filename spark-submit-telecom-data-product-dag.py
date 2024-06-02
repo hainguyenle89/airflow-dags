@@ -30,8 +30,8 @@ with DAG(
         conn_id="spark_10.193.79.40",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
-        #env_vars={'etlJob': 'subscriberETL'},
-        application_args=['subscriberETL'],
+        #env_vars={'etlJob': 'subscriberParquetETL'},
+        application_args=['subscriberParquetETL'],
     )
 
     telecom_deviceinfo_parquet_etl = SparkSubmitOperator(
@@ -44,8 +44,8 @@ with DAG(
         conn_id="spark_10.193.79.40",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
-        #env_vars={'etlJob': 'deviceinfoETL'},
-        application_args=['deviceinfoETL'],
+        #env_vars={'etlJob': 'deviceinfoParquetETL'},
+        application_args=['deviceinfoParquetETL'],
     )
 
     telecom_subscriber_delta_etl = SparkSubmitOperator(
