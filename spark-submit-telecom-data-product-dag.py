@@ -24,10 +24,10 @@ with DAG(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py", 
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py", 
         task_id="spark_telecom_subscriber_parquet_etl",
-        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.iceberg:iceberg-aws:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
-        conn_id="spark_10.193.79.40",
+        conn_id="spark_master",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'subscriberParquetETL'},
@@ -38,30 +38,88 @@ with DAG(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
         task_id="spark_telecom_deviceinfo_parquet_etl",
-        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.iceberg:iceberg-aws:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
-        conn_id="spark_10.193.79.40",
+        conn_id="spark_master",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'deviceinfoParquetETL'},
         application_args=['deviceinfoParquetETL'],
     )
 
+    telecom_subscriber_delta_etl = SparkSubmitOperator(
+        application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
+        #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
+        task_id="spark_telecom_subscriber_delta_etl",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
+        py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
+        files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
+        conn_id="spark_master",
+        spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
+        #env_vars={'etlJob': 'subscriberDeltaETL'},
+        application_args=['subscriberDeltaETL'],
+    )
+
     telecom_kudu_subscriber_etl = SparkSubmitOperator(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
         task_id="spark_telecom_kudu_subscriber_etl",
-        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.iceberg:iceberg-aws:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
-        conn_id="spark_10.193.79.40",
+        conn_id="spark_master",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
         #env_vars={'etlJob': 'subscriberDeltaETL'},
         application_args=['kuduSubscriberETL'],
     )
 
-    [telecom_subscriber_parquet_etl, telecom_deviceinfo_parquet_etl] >> telecom_kudu_subscriber_etl
+    telecom_subscriber_iceberg_etl = SparkSubmitOperator(
+        application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
+        #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
+        task_id="spark_telecom_subscriber_iceberg_etl",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
+        py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
+        files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
+        conn_id="spark_master",
+        spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
+        #env_vars={'etlJob': 'subscriberIcebergETL'},
+        application_args=['subscriberIcebergETL'],
+    )
 
+    telecom_deviceinfo_iceberg_etl = SparkSubmitOperator(
+        application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
+        #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
+        task_id="spark_telecom_deviceinfo_iceberg_etl",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
+        py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
+        files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
+        conn_id="spark_master",
+        spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
+        #env_vars={'etlJob': 'deviceinfoIcebergETL'},
+        application_args=['deviceinfoIcebergETL'],
+    )
+
+    telecom_kudu_deviceinfo_etl = SparkSubmitOperator(
+        application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
+        #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
+        task_id="spark_telecom_kudu_deviceinfo_etl",
+        packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
+        py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
+        files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
+        conn_id="spark_master",
+        spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
+        jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
+        #env_vars={'etlJob': 'kuduDeviceinfoETL'},
+        application_args=['kuduDeviceinfoETL'],
+    )
+
+    [telecom_subscriber_parquet_etl, telecom_deviceinfo_parquet_etl, telecom_subscriber_delta_etl] >> telecom_deviceinfo_iceberg_etl
+    [telecom_subscriber_parquet_etl, telecom_deviceinfo_parquet_etl, telecom_subscriber_delta_etl] >> telecom_kudu_subscriber_etl
+    [telecom_subscriber_parquet_etl, telecom_deviceinfo_parquet_etl, telecom_subscriber_delta_etl] >> telecom_subscriber_iceberg_etl
+    [telecom_deviceinfo_iceberg_etl, telecom_kudu_subscriber_etl, telecom_subscriber_iceberg_etl] >> telecom_kudu_deviceinfo_etl
 
