@@ -20,19 +20,19 @@ with DAG(
     max_active_runs=1,
 #    default_args={"owner": "01-EXTRACT", "retries": 2},
 ) as dag:
-    telecom_kudu_subscriber_streaming_etl = SparkSubmitOperator(
+    telecom_subscriber_iceberg_streaming_etl = SparkSubmitOperator(
         application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/telecom_product_application.py",
         #application="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/tests/test_db.py",
-        task_id="spark_telecom_kudu_subscriber_streaming_etl",
+        task_id="spark_telecom_subscriber_iceberg_streaming_etl",
         packages="io.delta:delta-spark_2.12:3.2.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.2,org.apache.kudu:kudu-spark3_2.12:1.17.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
         py_files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/packages.zip",
         files="/opt/bitnami/airflow/dags/python_projects/telecom_data_product/configs/telecom_etl_config.yaml",
         conn_id="spark_master",
         spark_binary="/opt/bitnami/airflow/spark-3.5.1-bin-hadoop3/bin/spark-submit",
         jars="/opt/bitnami/airflow/dags/python_projects/libraries/postgresql-42.6.0.jar",
-        #env_vars={'etlJob': 'kuduSubscriberStreamingETL'},
-        application_args=['kuduSubscriberStreamingETL'],
+        #env_vars={'etlJob': 'subscriberIcebergETL'},
+        application_args=['subscriberIcebergStreamingETL'],
     )
 
-    telecom_kudu_subscriber_streaming_etl
+    telecom_subscriber_iceberg_streaming_etl
 
